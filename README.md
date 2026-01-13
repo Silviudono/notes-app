@@ -1,16 +1,46 @@
-# React + Vite
+# Notes App -- Documentație Tehnică
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Prezentare Generală
+Aplicația **Notes App** este o platformă modernă pentru gestionarea și stocarea notițelor personale în cloud. Proiectul utilizează **React** pentru interfață și **Firebase Realtime Database** pentru stocarea datelor. Comunicarea este realizată exclusiv prin **Firebase REST API**, respectând o arhitectură client-side modulară.
 
-Currently, two official plugins are available:
+## 2. Obiective Tehnice
+* **Arhitectură modernă**: Construită pe React 18 și Vite.
+* **REST API**: Operațiuni CRUD (Create, Read, Update, Delete) fără SDK-uri externe.
+* **Polling**: Sincronizare automată a datelor la fiecare 30 de secunde.
+* **Securitate**: Gestionarea URL-ului prin variabile de mediu (`VITE_FIREBASE_URL`).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 3. Funcționalități
+* **Gestiune Completă (CRUD)**: Adăugare, vizualizare, editare și ștergere notițe.
+* **Organizare**: Clasificarea notițelor prin tag-uri (*Personal*, *Work*, *Ideas*).
+* **Căutare**: Filtrare în timp real după conținut sau categorie.
+* **UI Responsiv**: Interfață adaptabilă pentru mobil și desktop folosind CSS Grid.
 
-## React Compiler
+## 4. Tehnologii Utilizate
+### Frontend
+* **React 18**: Hooks (`useState`, `useEffect`).
+* **Vite**: Build tool rapid.
+* **Vitest**: Testare unitară pentru API.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Backend (Serverless)
+* **Firebase Realtime Database**: Stocare JSON.
+* **Firebase REST API**: Protocol HTTPS.
 
-## Expanding the ESLint configuration
+## 5. Arhitectură Aplicație
+Aplicația urmează un flux de date unidirecțional:
+1. **Client (React)** solicită date via `api.js`.
+2. **API Service** comunică prin REST cu **Firebase**.
+3. **Firebase** returnează obiecte JSON care actualizează starea aplicației.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 6. Documentație API (Firebase REST)
+| Metodă | Endpoint | Descriere |
+| :--- | :--- | :--- |
+| **GET** | `/notes.json` | Preia toate notițele. |
+| **POST** | `/notes.json` | Salvează o notiță nouă. |
+| **PATCH** | `/notes/:id.json` | Actualizează o notiță. |
+| **DELETE** | `/notes/:id.json` | Șterge o notiță. |
+
+## 7. Instrucțiuni de Rulare Locală
+1. Clonează repository-ul.
+2. Rulează `npm install` pentru instalarea dependențelor.
+3. Creează un fișier `.env.local` și adaugă `VITE_FIREBASE_URL=https://notes-app-e743d-default-rtdb.europe-west1.firebasedatabase.app/notes.json`.
+4. Rulează `npm run dev` pentru a porni aplicația local.
