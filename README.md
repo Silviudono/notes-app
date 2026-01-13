@@ -1,46 +1,98 @@
 # Notes App -- Documentație Tehnică
 
 ## 1. Prezentare Generală
-Aplicația **Notes App** este o platformă modernă pentru gestionarea și stocarea notițelor personale în cloud. Proiectul utilizează **React** pentru interfață și **Firebase Realtime Database** pentru stocarea datelor. Comunicarea este realizată exclusiv prin **Firebase REST API**, respectând o arhitectură client-side modulară.
+Aplicația **Notes App** este o platformă modernă pentru gestionarea și stocarea notițelor personale în cloud. Proiectul utilizează **React 18** pentru interfață și **Firebase Realtime Database** pentru stocarea datelor, comunicarea fiind realizată exclusiv prin **Firebase REST API**. Aplicația respectă arhitecturile web actuale de tip Single Page Application (SPA).
 
 ## 2. Obiective Tehnice
-* **Arhitectură modernă**: Construită pe React 18 și Vite.
-* **REST API**: Operațiuni CRUD (Create, Read, Update, Delete) fără SDK-uri externe.
-* **Polling**: Sincronizare automată a datelor la fiecare 30 de secunde.
-* **Securitate**: Gestionarea URL-ului prin variabile de mediu (`VITE_FIREBASE_URL`).
+-   Arhitectură web modernă bazată pe **React 18** și **Vite**.
+-   Implementarea comunicării cu baza de date folosind **REST API**(fără SDK-uri preinstalate).
+-   Mecanism de **Polling** integrat pentru actualizarea automată a datelor la fiecare 30 de secunde.
+-   Gestionarea configurațiilor sensibile prin variabile de mediu (`VITE_FIREBASE_URL`).
 
 ## 3. Funcționalități
-* **Gestiune Completă (CRUD)**: Adăugare, vizualizare, editare și ștergere notițe.
-* **Organizare**: Clasificarea notițelor prin tag-uri (*Personal*, *Work*, *Ideas*).
-* **Căutare**: Filtrare în timp real după conținut sau categorie.
-* **UI Responsiv**: Interfață adaptabilă pentru mobil și desktop folosind CSS Grid.
+-   **Gestiune Completă (CRUD)**: Utilizatorul poate adăuga, vizualiza, edita și șterge notițe în timp real.
+-   **Sistem de Tag-uri**: Organizarea notițelor prin categorii (*Personal, Work, Ideas*).
+-   **Căutare și Filtrare**: Bară de căutare dinamică pentru filtrarea notițelor după text sau tag.
+-   **Sincronizare Automată**: Actualizare periodică a stării aplicației prin polling.
+-   **Interfață Responsivă**: Layout adaptabil realizat cu CSS Grid și Flexbox.
 
 ## 4. Tehnologii Utilizate
 ### Frontend
-* **React 18**: Hooks (`useState`, `useEffect`).
-* **Vite**: Build tool rapid.
-* **Vitest**: Testare unitară pentru API.
+-   **React 18** (Functional Components, Hooks: `useState`, `useEffect`).
+-   **Vite** (Build tool de ultimă generație).
+-   **CSS3** (Grid & Flexbox).
+-   **Vitest** (Unit testing pentru serviciile API).
 
 ### Backend (Serverless)
-* **Firebase Realtime Database**: Stocare JSON.
-* **Firebase REST API**: Protocol HTTPS.
+-   **Firebase Realtime Database** (Stocare NoSQL tip JSON).
+-   **Firebase REST API** (Comunicare securizată HTTPS).
 
-## 5. Arhitectură Aplicație
-Aplicația urmează un flux de date unidirecțional:
-1. **Client (React)** solicită date via `api.js`.
-2. **API Service** comunică prin REST cu **Firebase**.
-3. **Firebase** returnează obiecte JSON care actualizează starea aplicației.
+## 5. Metodologie Agile
+Proiectul a fost dezvoltat iterativ, utilizând sprint-uri pentru livrarea rapidă a funcționalităților.
 
-## 6. Documentație API (Firebase REST)
+### Sprint-uri
+1. Configurare mediu de lucru (Vite + React) și Firebase.
+2. Creare serviciu API (GET, POST, PATCH, DELETE).
+3. Dezvoltare UI: Formular, Search bar și Library Grid.
+4. Implementare Polling și teste unitare.
+5. Documentație și Deployment final pe Vercel.
+
+### Flux dezvoltare
+```mermaid
+graph LR
+A[Planificare] --> B[Design UI]
+B --> C[Implementare REST]
+C --> D[Testare Vitest]
+D --> E[Evaluare]
+E --> F[Deployment Vercel]
+```
+
+## 6. Arhitectură Aplicație
+``` mermaid
+graph TB
+subgraph Client - React App
+A[Interfață Utilizator] --> B[State Management]
+B --> C[API Service - api.js]
+end
+
+subgraph Cloud Storage - Firebase
+C -- HTTPS/REST --> D[Firebase Database]
+D -- JSON Response --> C
+end
+
+subgraph Configurare
+E[.env.local / Vercel Vars] --> C
+end
+```
+## 7. Arhitectura Componentelor React
+
+``` mermaid
+graph TB
+App --> InputSection
+App --> SearchBar
+App --> NoteLibrary
+NoteLibrary --> NoteCard
+NoteCard --> CategoryTag
+NoteCard --> ControlButtons
+```
+## 8. Documentație API (Firebase REST)
+Aplicația interacționează cu endpoint-ul Firebase folosind sufixul `.json` obligatoriu pentru apelurile REST.
+
 | Metodă | Endpoint | Descriere |
 | :--- | :--- | :--- |
-| **GET** | `/notes.json` | Preia toate notițele. |
+| **GET** | `/notes.json` | Preia toate notițele din bibliotecă. |
 | **POST** | `/notes.json` | Salvează o notiță nouă. |
-| **PATCH** | `/notes/:id.json` | Actualizează o notiță. |
-| **DELETE** | `/notes/:id.json` | Șterge o notiță. |
+| **PATCH** | `/notes/:id.json` | Actualizează o notiță existentă (Edit). |
+| **DELETE** | `/notes/:id.json` | Șterge definitiv o notiță. |
 
-## 7. Instrucțiuni de Rulare Locală
-1. Clonează repository-ul.
-2. Rulează `npm install` pentru instalarea dependențelor.
-3. Creează un fișier `.env.local` și adaugă `VITE_FIREBASE_URL=https://notes-app-e743d-default-rtdb.europe-west1.firebasedatabase.app/notes.json`.
-4. Rulează `npm run dev` pentru a porni aplicația local.
+## 9. Rute și Structură Proiect
+
+| Componentă | Fișier | Descriere |
+| :--- | :--- | :--- |
+| **App** | `App.jsx` | Gestionarea stării globale, a căutării și a polling-ului. |
+| **API** | `api.js` | Logica de fetch (CRUD) către Firebase. |
+| **Tests** | `api.test.js` | Unit testing pentru validarea răspunsurilor API. |
+| **Styles** | `App.css` | Stiluri pentru grid, butoane și tag-uri. |
+
+## 10. Concluzii
+Aplicația **Notes App** demonstrează utilizarea eficientă a tehnologiilor moderne client-side și integrarea cu servicii Cloud prin protocoale REST standard. Arhitectura modulară permite scalarea ușoară și asigură o mentenanță simplă prin testare unitară și documentație clară.
