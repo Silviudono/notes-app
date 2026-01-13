@@ -1,0 +1,67 @@
+/*center the entire app on the screen and setting a maximum width*/
+.library-container { max-width: 1200px; margin: 0 auto; padding: 2rem; font-family: 'Times new roman', sans-serif; }
+
+/*setting up the top bar as a flexible row with items centered*/
+.controls { 
+  display: flex; gap: 10px; justify-content: center; 
+  margin-bottom: 2rem; flex-wrap: nowrap; align-items: center; 
+}
+
+/*adding padding and rounded corners to all input boxes and the dropdown */
+.controls input, .tag-select { padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+
+/*giving the search box a light blue background and a blue border*/
+.search-input { background-color: #f0f8ff; border: 1px solid #007bff !important; }
+
+/*styling the 'Add' button with a blue background and white text*/
+.primary-btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+
+/*styling the 'Display' button with a gray background and white text*/
+.secondary-btn { background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+
+/*creating the grid layout with exactly 3 equal columns per row*/
+.library-grid { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px; 
+}
+
+/*styling each note card with a green background, border, and soft shadow */
+.note-card { 
+  background: rgb(208, 227, 170); border: 1px solid #040404; 
+  padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(2, 2, 2, 0.05); 
+  display: flex; flex-direction: column; justify-content: space-between; min-height: 160px;
+}
+
+/*setting the color and spacing for the note's main text */
+.note-text { color: #333; margin: 10px 0; line-height: 1.4; }
+
+/*styling the tag badges with small, bold, uppercase text */
+.tag-badge { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+
+/*light blue theme for 'Personal' tags */
+.personal { background: #e7f1ff; color: #007bff; }
+
+/*light orange theme for 'Work' tags */
+.work { background: #fff4e5; color: #fd7e14; }
+
+/*light green theme for 'Ideas' tags */
+.ideas { background: #e6fcf5; color: #28a745; }
+
+/*aligning the date and the buttons at the bottom of the card */
+.card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+
+/*placing the Edit and Delete buttons right next to each other */
+.button-group { display: flex; gap: 10px; }
+
+/*styling the date text with a gray color and small size */
+.note-date { color: #888; font-size: 0.75rem; }
+
+/*styling the 'Edit' button*/
+.edit-btn { background: #28a745; color: rgb(255, 255, 255); border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+
+/*styling the 'Delete' button with a red background */
+.delete-btn { background: #dc3545; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+
+/*if the screen is smaller than 768px (like a phone), switch to 1 card per row */
+@media (max-width: 768px) { .library-grid { grid-template-columns: 1fr; } .controls { flex-wrap: wrap; } }
